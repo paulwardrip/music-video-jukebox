@@ -1,0 +1,15 @@
+{
+  "name": "music-video-jukebox",
+  "version": "0.0.1",
+  "description": "a jukebox that plays music videos from your downloaded files and from youtube links you enter",
+  "main": "main.js",
+  "scripts": {
+    "less": "lessc src/jukebox.less app/jukebox.css",
+    "watch": "watch \"npm run less\" src"
+  },
+  "author": "Paul Wardrip <pwardrip@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "less": "^2.7.2"
+  }
+}

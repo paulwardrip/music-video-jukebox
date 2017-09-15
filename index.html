@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="app/jukebox.css">
+    <link rel="stylesheet" href="app/fonts/lato.css">
+    <link rel="stylesheet" href="app/bower_components/font-awesome/css/font-awesome.css">
+    <script src="app/bower_components/jquery/dist/jquery.js"></script>
+    <script src="app/bower_components/centerize/centerize.js"></script>
+    <script src="app/bower_components/auto-lightbox/auto-lightbox.js"></script>
+    <script src="http://www.youtube.com/player_api"></script>
+    <script src="app/jukebox.js"></script>
+</head>
+<body>
+    <i class="fa fa-bars menuicon" aria-hidden="true"></i>
+
+    <div id="player"></div>
+
+    <div class="menu">
+        <div>
+            <div class="addyoutube"><i class="fa fa-youtube-square"></i> Add Youtube Video</div>
+            <div class="listing">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="addvideo">
+        <h3>Add Youtube Video</h3>
+        <div><label>Video ID</label><span id="yturpfx">https://www.youtube.com/watch?v=</span><input type="text" id="url"></div>
+        <div><label>Artist</label><input type="text" id="artist"></div>
+        <div><label>Song Name</label><input type="text" id="song"></div>
+        <button id="addbtn">Add Video to Library</button>
+    </div>
+
+    <div id="playing">
+        <div class="artist"></div>
+        <div class="song"></div>
+    </div>
+
+
+</body>
+</html>
