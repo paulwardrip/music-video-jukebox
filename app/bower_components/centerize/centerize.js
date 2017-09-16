@@ -64,7 +64,7 @@ var Centerize = function() {
 
             var aspect;
             var w;
-            var h = Math.floor(heightof(parent) * percent);
+            var h = Math.floor(heightof(parent, true) * percent);
             if (useaspect) {
                 aspect = __this.width() / __this.height();
                 w = Math.floor(h * aspect);

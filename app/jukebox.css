@@ -8,10 +8,18 @@ body {
 .fa.menuicon {
   position: absolute;
   font-size: 50px;
-  top: 10px;
-  left: 10px;
   opacity: 0.5;
   color: white;
+  top: 10px;
+  left: 10px;
+}
+.fa.skipicon {
+  position: absolute;
+  font-size: 50px;
+  opacity: 0.5;
+  color: white;
+  top: 10px;
+  right: 10px;
 }
 .menu {
   position: absolute;
@@ -20,7 +28,12 @@ body {
   border: 2px solid black;
   display: none;
   padding: 25px;
+  background-color: #E0E0E0;
   z-index: 5;
+}
+.menu .fa-window-close-o {
+  position: absolute;
+  right: 0px;
 }
 .addvideo {
   position: absolute;
@@ -32,6 +45,10 @@ body {
   z-index: 10;
   width: 500px;
   height: 185px;
+}
+.addvideo .fa-window-close-o {
+  position: absolute;
+  right: 0px;
 }
 .addvideo label {
   display: inline-block;
@@ -59,4 +76,29 @@ body {
 }
 #playing .song {
   font-weight: 700;
+}
+.songentry {
+  border-radius: 10px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid black;
+  margin: 2px;
+  cursor: pointer;
+}
+.songentry .artist {
+  font-weight: 300;
+}
+.songentry .song {
+  font-weight: 700;
+}
+.listing {
+  display: inline-block;
+  overflow: auto;
+}
+.artists {
+  display: inline-block;
+  overflow: auto;
+}
+.drop-library {
+  border: 1px dashed black;
 }

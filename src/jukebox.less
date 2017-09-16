@@ -6,13 +6,23 @@ body {
   padding: 0;
 }
 
-.fa.menuicon {
+.control() {
   position: absolute;
   font-size: 50px;
-  top: 10px;
-  left: 10px;
   opacity: 0.5;
   color: white;
+}
+
+.fa.menuicon {
+  .control;
+  top: 10px;
+  left: 10px;
+}
+
+.fa.skipicon {
+  .control;
+  top: 10px;
+  right: 10px;
 }
 
 .modal() {
@@ -26,11 +36,21 @@ body {
 
 .menu {
   .modal;
-
+  background-color: #E0E0E0;
   z-index: 5;
+
+  .fa-window-close-o {
+    position: absolute;
+    right: 0px;
+  }
 }
 
 .addvideo {
+  .fa-window-close-o {
+    position: absolute;
+    right: 0px;
+  }
+
   .modal;
 
   z-index: 10;
@@ -56,6 +76,15 @@ body {
   }
 }
 
+.songtype() {
+  .artist {
+    font-weight: 300;
+  }
+  .song {
+    font-weight: 700;
+  }
+}
+
 #playing {
   position: absolute;
   font-size: 16px;
@@ -64,10 +93,32 @@ body {
 
   color: white;
 
-  .artist {
-    font-weight: 300;
-  }
-  .song {
-    font-weight: 700;
-  }
+  .songtype;
+}
+
+.songentry{
+  border-radius: 10px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid black;
+  margin: 2px;
+  cursor: pointer;
+  .songtype;
+}
+
+.listtype() {
+  display: inline-block;
+  overflow: auto;
+}
+
+.listing {
+ .listtype;
+}
+
+.artists {
+  .listtype;
+}
+
+.drop-library {
+  border: 1px dashed black;
 }
