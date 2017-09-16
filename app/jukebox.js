@@ -97,6 +97,7 @@ $(document).ready(function () {
             reader.addEventListener("loadend", function (event) {
                 library = JSON.parse(event.target.result);
                 console.log("Imported", library.length);
+                saveLibrary();
             });
 
             reader.readAsText(file);
