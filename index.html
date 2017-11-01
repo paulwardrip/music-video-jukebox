@@ -4,11 +4,12 @@
     <link rel="stylesheet" href="app/jukebox.css">
     <link rel="stylesheet" href="app/fonts/lato.css">
     <link rel="stylesheet" href="app/bower_components/font-awesome/css/font-awesome.css">
+    <script src="app/bower_components/journal/journal.js"></script>
     <script src="app/bower_components/jquery/dist/jquery.js"></script>
     <script src="app/bower_components/centerize/centerize.js"></script>
-    <script src="app/bower_components/auto-lightbox/auto-lightbox.js"></script>
+    <script src="app/bower_components/auto-lightbox/auto-lightbox.js?v2"></script>
+    <script src="app/jukebox.js?v2"></script>
     <script src="http://www.youtube.com/player_api"></script>
-    <script src="app/jukebox.js"></script>
 </head>
 <body>
     <i class="fa fa-bars menuicon" aria-hidden="true"></i>
@@ -18,11 +19,22 @@
 
     <div class="menu">
         <i class="fa fa-window-close-o"></i>
-        <div class="addyoutube"><i class="fa fa-youtube-square"></i> Add Youtube Video</div>
-        <div class="export"><a class="export-link"><i class="fa fa-floppy-o"></i> Save Library</a></div>
-        <div class="drop-library"><i class="fa fa-upload"> Import Library (Drag and Drop File Here)</div>
-        <div class="artists"></div>
+
+        <div class="queuelist"></div>
+
+        <div class="play-mode">
+            <div><strong>Library Mode</strong>: </div>
+            <div class="queue"><i class="fa fa-plus-square" aria-hidden="true"></i> Add to Queue</div>
+            <div class="now" style="display: none"><i class="fa fa-play-circle" aria-hidden="true"></i> Play Right Now</div>
+        </div>
+
         <div class="listing"></div>
+    </div>
+
+    <div class="import drop-library">
+        <i class="fa fa-upload" aria-hidden="true" style="font-size: 200px"></i>
+        <div class="instruct">Drag and Drop library.json here.</div>
+        <div class="status"></div>
     </div>
 
     <div class="addvideo">
@@ -45,5 +57,13 @@
             <div class="song"></div>
         </div>
     </script>
+
+    <div class="functi">
+        <div class="addyoutube"><i class="fa fa-youtube-square"></i> Add Youtube Video</div>
+        <div class="export"><a class="export-link"><i class="fa fa-floppy-o"></i> Save Library</a></div>
+        <div><i class="fa fa-upload"></i> <a class="import-link">Import Library</a></div>
+    </div>
+
+    <div class="heads"><h3>Song Queue <div class="addrandom">(Add Random)</div></h3><h3>Library</h3></div>
 </body>
 </html>

@@ -17,15 +17,16 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "index.html"
   ],
   "dependencies": {},
-  "version": "1.1.3",
-  "_release": "1.1.3",
+  "version": "1.2.0",
+  "_release": "1.2.0",
   "_resolution": {
     "type": "version",
-    "tag": "v1.1.3",
-    "commit": "f6ad3858dbd1d619ca021be9d6d8db77af8d18b5"
+    "tag": "v1.2.0",
+    "commit": "b5bf0fdeb098b47304b4f5d1c40c9dc23f0d910a"
   },
   "_source": "https://github.com/paulwardrip/auto-lightbox.git",
   "_target": "^1.1.2",

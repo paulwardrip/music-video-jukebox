@@ -1,0 +1,13 @@
+{
+  "name": "journal",
+  "version": "1.0.6",
+  "main": "journal.js",
+  "private": false,
+  "repository": "https://github.com/paulwardrip/journal.js.git",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-contrib-uglify": "^3.0.1"
+  }
+}

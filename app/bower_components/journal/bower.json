@@ -1,0 +1,21 @@
+{
+  "name": "journal",
+  "main": "journal.js",
+  "homepage": "https://github.com/paulwardrip/journal.js",
+  "authors": [
+    "Paul Wardrip <pwardrip@gmail.com>"
+  ],
+  "description": "Journal is an extension of the console log for the browser that allows you to use the levels of the logger to show only the messages that you want to see.",
+  "keywords": [
+    "logger",
+    "console"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

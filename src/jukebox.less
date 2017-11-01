@@ -11,6 +11,15 @@ body {
   font-size: 50px;
   opacity: 0.5;
   color: white;
+  cursor: pointer;
+}
+
+.fa.menuicon:hover {
+  color: lightskyblue;
+}
+
+.fa.skipicon:hover {
+  color: lightgoldenrodyellow;
 }
 
 .fa.menuicon {
@@ -41,8 +50,22 @@ body {
 
   .fa-window-close-o {
     position: absolute;
-    right: 0px;
+    right: 10px;
+    top: 10px;
   }
+}
+
+.import {
+  .modal;
+
+  z-index: 10;
+  width: 220px;
+  height: 220px;
+  padding: 50px;
+  text-align: center;
+
+  transition: background-color 1s ease;
+  display: none;
 }
 
 .addvideo {
@@ -109,16 +132,50 @@ body {
 .listtype() {
   display: inline-block;
   overflow: auto;
+  border: 2px solid black;
 }
 
 .listing {
+  background-color: mediumpurple;
  .listtype;
 }
 
-.artists {
+.queuelist {
+  background-color: lightseagreen;
   .listtype;
 }
 
 .drop-library {
   border: 1px dashed black;
+}
+
+.play-mode {
+  cursor: pointer;
+
+  div {
+    display: inline-block;
+  }
+}
+
+.play-mode:hover {
+  color: royalblue;
+}
+
+.functi {
+  div {
+    cursor: pointer
+  }
+  div:hover {
+    color: royalblue;
+  }
+}
+
+.addrandom {
+  font-size: 12px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.addrandom:hover {
+  color: royalblue;
 }

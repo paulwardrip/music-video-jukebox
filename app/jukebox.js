@@ -6,14 +6,22 @@ var onYouTubePlayerAPIReady;
 $(document).ready(function () {
     var $menu = $(".menu");
     var $listing = $(".listing");
-    var $artists = $(".artists");
+    var $queuelist = $(".queuelist");
     var $window = $(window);
     var played = {};
     var playorder = [];
     var loopidx = -1;
     var queue = [];
+    var playmode = "queue";
+    var jumpto;
+    var spaceout = $(".heads").height() + $(".functi").height();
+    var itry;
+    var itrysomuch = 0;
 
-    var lightbox = AutoLightBox($menu);
+    $menu.autolightbox();
+
+    $menu.prepend($(".heads").detach());
+    $menu.prepend($(".functi").detach());
 
     function loadLibrary() {
         library = JSON.parse(localStorage.getItem("music-video-jukebox-library"));
@@ -27,27 +35,48 @@ $(document).ready(function () {
 
     loadLibrary();
 
-    function selectsong() {
+    function selectsong(forcerandom) {
+        function randomtime() {
+            console.info("Next song will be random.");
+            var song = Math.round(Math.random() * (library.length - 1));
+            console.debug(song, "of", library.length);
+
+            if (!played[library[song].url]) {
+                played[library[song].url] = true;
+                playorder.push(library[song]);
+                return library[song];
+            } else {
+                return selectsong();
+            }
+        }
+
+        if (forcerandom) {
+            return randomtime();
+        }
+
+        if (jumpto) {
+            console.info("Next song will be user-selected.");
+            var nu = jumpto;
+            jumpto = null;
+            return nu;
+        }
+
         if (queue.length > 0) {
+            console.info("Next song will be the next item in the queue.");
             var s = queue.splice(0,1);
-            return s;
+            listQueue();
+            return s[0];
 
         } else {
             if (playorder.length == library.length) {
+                console.info("Next song will be repeating the order the complete catalog was played in.");
                 loopidx++;
                 if (loopidx == library.length) loopidx = 0;
                 return playorder[loopidx];
-            } else {
-                var song = Math.round(Math.random() * (library.length - 1));
 
-                console.log(played[library[song].url]);
-                if (!played[library[song].url]) {
-                    played[library[song].url] = true;
-                    playorder.push(library[song]);
-                    return library[song];
-                } else {
-                    return selectsong();
-                }
+            } else {
+                return randomtime();
+
             }
         }
     }
@@ -64,15 +93,30 @@ $(document).ready(function () {
     }
 
     var videoup = selectsong();
-
+    queue.push(selectsong());
     var player;
 
     function c(e) {
+        if (e.type === "dragenter") {
+            $(e.target).css("background-color", "deepskyblue");
+        }
         if (e.preventDefault) {
             e.preventDefault();
         }
         return false;
     }
+
+    $(".play-mode").click(function () {
+        if (playmode === "queue") {
+            playmode = "now";
+            $(".play-mode .queue").hide();
+            $(".play-mode .now").show();
+        } else {
+            playmode = "queue";
+            $(".play-mode .queue").show();
+            $(".play-mode .now").hide();
+        }
+    });
 
     $(".drop-library").on("dragover", c);
     $(".drop-library").on("dragenter", c);
@@ -96,6 +140,13 @@ $(document).ready(function () {
 
             reader.addEventListener("loadend", function (event) {
                 library = JSON.parse(event.target.result);
+                $(".import .status").html("Imported " + library.length + " videos.");
+                $(".import").css("background-color", "darkseagreen");
+                setTimeout(function () {
+                    $(".import").fadeOut(2000, function () {
+                        $menu.autolightbox();
+                    });
+                },2000);
                 console.log("Imported", library.length);
                 saveLibrary();
             });
@@ -124,17 +175,38 @@ $(document).ready(function () {
             },
             events: {
                 onReady: onPlayerReady,
-                onStateChange: onPlayerStateChange
+                onStateChange: onPlayerStateChange,
+
+                onError: function (e) {
+                    console.error("Youtube Error!");
+                    console.error(e);
+
+                    itrysomuch++;
+                    if (itrysomuch > 3) {
+                        nextup();
+                    } else {
+                        console.debug(itrysomuch, itry);
+                        player.loadVideoById(itry);
+                        player.playVideo();
+                    }
+                }
             }
         });
     };
 
     function nextup() {
+        itry = videoup.url;
+        itrysomuch = 0;
         videoup = selectsong();
-        player.cueVideoById(videoup.url);
+        console.info(videoup);
+        player.loadVideoById(videoup.url);
+        console.info(videoup.url);
         player.playVideo();
         $("#playing .artist").html(videoup.artist);
         $("#playing .song").html(videoup.song);
+
+        if (queue.length === 0) queue.push(selectsong());
+        listQueue();
     }
 
     // autoplay video
@@ -144,6 +216,8 @@ $(document).ready(function () {
 
     // when video ends
     function onPlayerStateChange(event) {
+        console.debug(event);
+        console.debug(YT.PlayerState);
         if(event.data === 0) {
             nextup();
         }
@@ -152,10 +226,25 @@ $(document).ready(function () {
     function menusize() {
         $menu.heightPercent(.8);
         $menu.widthPercent(.8);
-        $artists.widthPercent(.49);
-        $artists.takeupHeight();
-        $listing.widthPercent(.49);
-        $listing.heightPercent(1);
+        $queuelist.widthPercent(.48);
+        $listing.widthPercent(.48);
+
+        $(".heads h3").css({
+            display: "inline-block",
+            width: $queuelist.width() + "px",
+            "padding-left": "7px"
+        });
+
+        var lhi = $menu.height() - spaceout - 25;
+
+        $listing.css("height", lhi + "px");
+        $queuelist.css("height", lhi + "px");
+
+        $(".play-mode").css({
+            position: "absolute",
+            left: $queuelist.width() + 35 + "px",
+            top: "55px"
+        });
     }
 
     $window.resize(menusize);
@@ -168,17 +257,73 @@ $(document).ready(function () {
             var s = library[idx];
 
             var $elem = $($("#sogentry-template").html());
-            $elem.find(".artist").html(s.artist);
-            $elem.find(".song").html(s.song);
-            $elem.data("entry", s);
 
-            $elem.click(function (e) {
-                queue.push($(e.target).data("entry"));
-            });
+            function setup(songentry) {
+                $elem.find(".artist").html(songentry.artist);
+                $elem.find(".song").html(songentry.song);
 
-            $listing.append($elem);
+                $elem.click(function (e) {
+                    if (playmode === "queue") {
+                        queue.push(songentry);
+                        console.log(songentry);
+                        listQueue();
+                    } else {
+                        jumpto = songentry;
+                        console.log(jumpto);
+                        nextup();
+                        $menu.hide();
+                    }
+                });
+
+                $listing.append($elem);
+            }
+
+            setup(s);
         }
     }
+
+    function listQueue() {
+        $queuelist.html("");
+        for (var idx in queue) {
+            var s = queue[idx];
+
+            var $elem = $($("#sogentry-template").html());
+
+            function setup(songentry, idxxx) {
+                $elem.find(".artist").html(songentry.artist);
+                $elem.find(".song").html(songentry.song);
+                $elem.css("position", "relative");
+
+                var $trashy = $('<i class="fa fa-trash-o" aria-hidden="true" style="position: absolute; right: 10px; bottom: 10px"></i>');
+                var $bumpy = $('<i class="fa fa-hand-o-up" aria-hidden="true" style="position: absolute; right: 10px; top: 10px"></i>');
+
+                $elem.append($trashy);
+                $trashy.click(function () {
+                    queue.splice(idxxx, 1);
+                    listQueue();
+                });
+
+                if (idxxx > 0) {
+                    $elem.append($bumpy);
+                    $bumpy.click(function () {
+                        var y = idxxx - 1;
+                        queue[idxxx] = queue.splice(y, 1, queue[idxxx])[0];
+                        listQueue();
+                    });
+                }
+
+                $queuelist.append($elem);
+            }
+
+            setup(s, idx);
+        }
+    }
+
+    $(".addrandom").click(function () {
+        console.info("Random Requested");
+        queue.push(selectsong(true));
+        listQueue();
+    });
 
     $(".menu .fa-window-close-o").click(function () {
         $menu.hide();
@@ -191,7 +336,8 @@ $(document).ready(function () {
     $(".menuicon").click(function () {
         $menu.show();
         $menu.centerize();
-        lightbox.parent($menu);
+        $menu.autolightbox();
+        listQueue();
     });
 
     $(".skipicon").click(function () {
@@ -201,7 +347,7 @@ $(document).ready(function () {
     $(".addyoutube").click(function () {
         $(".addvideo").show();
         $(".addvideo").centerize();
-        lightbox.parent($(".addvideo"));
+        $(".addvideo").autolightbox();
     });
 
     $("#addbtn").click(function () {
@@ -216,7 +362,7 @@ $(document).ready(function () {
         saveLibrary();
         list();
         $(".addvideo").hide();
-        lightbox.parent($menu);
+        $menu.autolightbox();
         $menu.hide();
 
         $("#url").val("");
@@ -224,10 +370,16 @@ $(document).ready(function () {
         $("#song").val("");
     });
 
+    $(".import-link").click(function () {
+        $(".import").autolightbox();
+        $(".import").show();
+        $(".import").centerize();
+    });
+
     $(".export-link").click(function () {
         var json = JSON.stringify(library, null, 2);
-        c
-        $(".export-link").attr("href", "data:image/png;base64," + btoa(json));
+        console.log (json);
+        $(".export-link").attr("href", "data:image/png;base64," + btoa(unescape(encodeURIComponent(json))));
         $(".export-link").attr("download", "library.json");
     });
 });
