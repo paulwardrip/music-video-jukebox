@@ -247,7 +247,11 @@ $(document).ready(function () {
         });
     }
 
-    $window.resize(menusize);
+    $window.resize(function(){
+        menusize();
+        player.setSize($window.width(), $window.height());
+    });
+
     menusize();
     list();
 
